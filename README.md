@@ -15,10 +15,12 @@ Runs on Paper 1.21 and newer, Java 21+.
 
 ```
 /verdict user <player> ban [duration] [reason]
+/verdict user <player> ipban [duration] [reason]
 /verdict user <player> mute [duration] [reason]
 /verdict user <player> kick [reason]
 /verdict user <player> warn [reason]
 /verdict user <player> unban
+/verdict user <player> unbanip
 /verdict user <player> unmute
 /verdict user <player> history [page]
 /verdict user <player> alts
@@ -31,7 +33,7 @@ Runs on Paper 1.21 and newer, Java 21+.
 Short commands, which can be turned off with `shortcuts: false`:
 
 ```
-/ban /tempban /mute /tempmute /kick /warn /unban /unmute /history /alts /banip /unbanip
+/ban /tempban /ipban /tempipban /mute /tempmute /kick /warn /unban /unbanip /unmute /history /alts
 ```
 
 ## Permissions
@@ -60,7 +62,7 @@ All default to operators.
 
 ## Messages
 
-Every message is in `config.yml` under `messages`, in [MiniMessage](https://docs.advntr.dev/minimessage/format.html) format. Placeholders: `<player>`, `<staff>`, `<reason>`, `<type>`, `<duration>`, `<expires>` and `<prefix>`.
+Every message is in `config.yml` under `messages`, in [MiniMessage](https://docs.advntr.dev/minimessage/format.html) format. A message can be one line, or a list of lines. Placeholders: `<player>`, `<staff>`, `<reason>`, `<type>`, `<duration>`, `<expires>` and `<prefix>`.
 
 ## API
 

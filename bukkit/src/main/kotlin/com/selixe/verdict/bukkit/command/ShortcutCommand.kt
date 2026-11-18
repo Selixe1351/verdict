@@ -1,6 +1,7 @@
 package com.selixe.verdict.bukkit.command
 
 import com.selixe.directive.Command
+import com.selixe.directive.CommandContext
 import com.selixe.directive.CommandFailure
 import com.selixe.directive.command
 import com.selixe.directive.parseDuration
@@ -18,8 +19,9 @@ class ShortcutCommand(private val verdict: VerdictCommand) {
         user("unmute", "verdict.unmute", "<player>"),
         user("history", "verdict.history", "<player> [page]"),
         user("alts", "verdict.alts", "<player>"),
-        ip("banip", "<address|player> [duration] [reason]", true),
-        ip("unbanip", "<address|player>", false)
+        ip("ipban", listOf("banip"), "<address|player> [duration] [reason]", true),
+        ip("tempipban", emptyList(), "<address|player> <duration> [reason]", true, true),
+        ip("unbanip", listOf("unipban"), "<address|player>", false)
     )
 
     private fun user(
@@ -30,17 +32,30 @@ class ShortcutCommand(private val verdict: VerdictCommand) {
         durationRequired: Boolean = false
     ) = command(name, permission = permission, usage = usage, async = true) {
         executes { context ->
-            if (durationRequired && context.arg(1)?.let(::parseDuration) == null) {
-                throw CommandFailure("Give a duration such as 30m, 7d or 1d12h.")
-            }
+            requireDuration(context, durationRequired)
 
             verdict.user(context, action, 1)
         }
     }
 
-    private fun ip(name: String, usage: String, ban: Boolean) =
-        command(name, permission = "verdict.ipban", usage = usage, async = true) {
-            executes { context -> verdict.ip(context, ban, 1) }
+    private fun ip(
+        name: String,
+        aliases: List<String>,
+        usage: String,
+        ban: Boolean,
+        durationRequired: Boolean = false
+    ) = command(name, aliases = aliases, permission = "verdict.ipban", usage = usage, async = true) {
+        executes { context ->
+            requireDuration(context, durationRequired)
+
+            verdict.ip(context, ban, 1)
         }
+    }
+
+    private fun requireDuration(context: CommandContext, required: Boolean) {
+        if (required && context.arg(1)?.let(::parseDuration) == null) {
+            throw CommandFailure("Give a duration such as 30m, 7d or 1d12h.")
+        }
+    }
 
 }

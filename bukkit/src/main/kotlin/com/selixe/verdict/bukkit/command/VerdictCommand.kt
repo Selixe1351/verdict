@@ -34,7 +34,7 @@ class VerdictCommand(
     fun create() = command("verdict", aliases = listOf("vd"), description = "Punish players") {
         sub(
             "user",
-            usage = "<player> <ban|mute|kick|warn|unban|unmute|history|alts> [duration] [reason]",
+            usage = "<player> <ban|ipban|mute|kick|warn|unban|unbanip|unmute|history|alts> [duration] [reason]",
             description = "Punish or look up a player",
             async = true
         ) {
@@ -42,7 +42,7 @@ class VerdictCommand(
                 when (context.index) {
                     0 -> context.players()
                     1 -> ACTIONS.keys.toList()
-                    2 -> if (context.arg(1)?.lowercase() in listOf("ban", "mute")) DURATIONS else emptyList()
+                    2 -> if (context.arg(1)?.lowercase() in listOf("ban", "ipban", "mute")) DURATIONS else emptyList()
                     else -> emptyList()
                 }
             }
@@ -107,7 +107,9 @@ class VerdictCommand(
                 notify(context, service.punish(type, target, reason(context, from), staff))
             }
 
+            "ipban" -> ip(context, true, from)
             "unban" -> notify(context, service.unban(target, staff), true)
+            "unbanip" -> ip(context, false, from)
             "unmute" -> notify(context, service.unmute(target, staff), true)
             "history" -> history(context, target, context.intOrNull(from) ?: 1)
             "alts" -> alts(context, target)
@@ -234,10 +236,12 @@ class VerdictCommand(
 
         private val ACTIONS = linkedMapOf(
             "ban" to "verdict.ban",
+            "ipban" to "verdict.ipban",
             "mute" to "verdict.mute",
             "kick" to "verdict.kick",
             "warn" to "verdict.warn",
             "unban" to "verdict.unban",
+            "unbanip" to "verdict.ipban",
             "unmute" to "verdict.unmute",
             "history" to "verdict.history",
             "alts" to "verdict.alts"
