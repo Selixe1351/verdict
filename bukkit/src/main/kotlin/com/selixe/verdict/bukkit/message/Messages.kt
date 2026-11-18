@@ -18,7 +18,7 @@ class Messages(private val section: ConfigurationSection) {
     val defaultReason: String = section.getString("default-reason") ?: "No reason given"
 
     fun render(key: String, punishment: IPunishment, revoked: Boolean = false): Component {
-        val template = section.getString(key) ?: error("Message '$key' is missing from config.yml")
+        val template = template(key)
 
         return miniMessage.deserialize(
             template,
@@ -30,6 +30,14 @@ class Messages(private val section: ConfigurationSection) {
             Placeholder.unparsed("duration", duration(punishment)),
             Placeholder.unparsed("expires", expires(punishment))
         )
+    }
+
+    private fun template(key: String): String {
+        if (section.isList(key)) {
+            return section.getStringList(key).joinToString("\n")
+        }
+
+        return section.getString(key) ?: error("Message '$key' is missing from config.yml")
     }
 
     private fun duration(punishment: IPunishment): String {

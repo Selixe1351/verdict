@@ -22,8 +22,15 @@ muted-commands:
 
 messages:
   prefix: "<dark_gray>[<red>Verdict</red>]</dark_gray> <gray>"
-  ban-screen: "<red><bold>You are banned.</bold>\n\n<gray>Reason: <white><reason>\n<gray>Expires: <white><expires>"
-  kick-screen: "<red><bold>You were kicked.</bold>\n\n<gray>Reason: <white><reason>"
+  ban-screen:
+    - "<red><bold>You are banned.</bold>"
+    - ""
+    - "<gray>Reason: <white><reason>"
+    - "<gray>Expires: <white><expires>"
+  kick-screen:
+    - "<red><bold>You were kicked.</bold>"
+    - ""
+    - "<gray>Reason: <white><reason>"
   muted: "<prefix><red>You are muted for <white><reason><red>. Expires: <white><expires>"
   warned: "<prefix><red>You were warned: <white><reason>"
   notify-issued: "<prefix><white><staff> <gray><type> <white><player> <gray><duration>: <white><reason>"
