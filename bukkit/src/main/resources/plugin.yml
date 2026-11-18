@@ -1,0 +1,38 @@
+name: Verdict
+version: '${version}'
+main: com.selixe.verdict.bukkit.VerdictPlugin
+api-version: '1.21'
+description: Bans, mutes, kicks and warnings, synced across servers.
+author: Selixe
+
+libraries:
+  - org.jetbrains.kotlin:kotlin-stdlib:2.3.0
+  - org.jetbrains.kotlin:kotlin-reflect:2.3.0
+  - org.mongodb:mongodb-driver-sync:5.14.0
+  - org.mongodb:bson-kotlin:5.14.0
+  - redis.clients:jedis:8.0.2
+  - com.github.ben-manes.caffeine:caffeine:3.3.1
+  - com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0
+  - com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0
+
+permissions:
+  verdict.ban:
+    default: op
+  verdict.mute:
+    default: op
+  verdict.kick:
+    default: op
+  verdict.warn:
+    default: op
+  verdict.unban:
+    default: op
+  verdict.unmute:
+    default: op
+  verdict.history:
+    default: op
+  verdict.alts:
+    default: op
+  verdict.ipban:
+    default: op
+  verdict.notify:
+    default: op

@@ -1,0 +1,32 @@
+mongo:
+  uri: mongodb://localhost:27017
+  database: verdict
+
+# Leave empty for a single server.
+redis:
+  uri: ""
+
+# Key used to hash IP addresses. Generated on first start. Use the same value on every server.
+ip-secret: ""
+
+shortcuts: true
+
+muted-commands:
+  - msg
+  - tell
+  - w
+  - whisper
+  - r
+  - reply
+  - me
+
+messages:
+  prefix: "<dark_gray>[<red>Verdict</red>]</dark_gray> <gray>"
+  ban-screen: "<red><bold>You are banned.</bold>\n\n<gray>Reason: <white><reason>\n<gray>Expires: <white><expires>"
+  kick-screen: "<red><bold>You were kicked.</bold>\n\n<gray>Reason: <white><reason>"
+  muted: "<prefix><red>You are muted for <white><reason><red>. Expires: <white><expires>"
+  warned: "<prefix><red>You were warned: <white><reason>"
+  notify-issued: "<prefix><white><staff> <gray><type> <white><player> <gray><duration>: <white><reason>"
+  notify-revoked: "<prefix><white><staff> <gray><type> <white><player>"
+  default-reason: "No reason given"
+  permanent: "never"

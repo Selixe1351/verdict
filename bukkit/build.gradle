@@ -1,0 +1,36 @@
+apply plugin: 'com.gradleup.shadow'
+
+dependencies {
+    implementation project(':api')
+
+    implementation 'com.selixe.conduit:conduit:1.2.0'
+    implementation 'com.selixe.directive:directive:1.0.0'
+    compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+
+    testImplementation 'org.testcontainers:testcontainers-mongodb:2.0.2'
+    testImplementation 'org.testcontainers:testcontainers-junit-jupiter:2.0.2'
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
+
+shadowJar {
+    archiveFileName = "Verdict-${version}.jar"
+    archiveClassifier.set('')
+
+    dependencies {
+        include(project(':api'))
+        include(dependency('com.selixe.conduit:conduit'))
+        include(dependency('com.selixe.directive:directive'))
+    }
+}
+
+tasks.named('build') {
+    dependsOn shadowJar
+}
