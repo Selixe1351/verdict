@@ -14,27 +14,24 @@ Runs on Paper 1.21 and newer, Java 21+.
 ## Commands
 
 ```
-/verdict user <player> ban [duration] [reason]
-/verdict user <player> ipban [duration] [reason]
-/verdict user <player> mute [duration] [reason]
-/verdict user <player> kick [reason]
-/verdict user <player> warn [reason]
-/verdict user <player> unban
-/verdict user <player> unbanip
-/verdict user <player> unmute
-/verdict user <player> history [page]
-/verdict user <player> alts
-/verdict ip <address|player> ban [duration] [reason]
-/verdict ip <address|player> unban
+/ban <player> [duration] [reason]
+/tempban <player> <duration> [reason]
+/mute <player> [duration] [reason]
+/tempmute <player> <duration> [reason]
+/kick <player> [reason]
+/warn <player> [reason]
+/unban <player>
+/unmute <player>
+/ipban <address|player> [duration] [reason]
+/tempipban <address|player> <duration> [reason]
+/unbanip <address|player>
+/history <player>
+/alts <player>
 ```
 
-`/vd` works as a short alias. Durations look like `30m`, `7d` or `1d12h`. Leave the duration out, or write `perm`, for a permanent punishment.
+Durations look like `30m`, `7d` or `1d12h`. Leave the duration out, or write `perm`, for a permanent punishment.
 
-Short commands, which can be turned off with `shortcuts: false`:
-
-```
-/ban /tempban /ipban /tempipban /mute /tempmute /kick /warn /unban /unbanip /unmute /history /alts
-```
+`/history` opens a menu of the player's punishments, newest first.
 
 ## Permissions
 
@@ -49,7 +46,7 @@ Short commands, which can be turned off with `shortcuts: false`:
 | `verdict.history` | view history |
 | `verdict.alts` | view alts |
 | `verdict.ipban` | ban and unban IP addresses |
-| `verdict.notify` | see every punishment as it happens |
+| `verdict.notify` | see every punishment as it happens, and alerts when a banned player's alt joins |
 
 All default to operators.
 
@@ -57,7 +54,8 @@ All default to operators.
 
 - Banned players are refused at login, by account or by IP.
 - Muted players cannot chat or use the commands listed under `muted-commands`.
-- Every login records the player's name and IP, which powers name lookups and `/alts`.
+- Every login records the player's name and IP, which powers name lookups and alt alerts.
+- When a player joins who shares an IP with a banned account, staff with `verdict.notify` are alerted.
 - Punishments are stored in MongoDB. Reads are cached, and with Redis every server learns about a change immediately.
 
 ## Messages

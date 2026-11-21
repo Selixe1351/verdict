@@ -72,6 +72,10 @@ class VerdictService(
             .sortedBy { it.name.lowercase() }
     }
 
+    fun getBannedAlts(uuid: UUID): List<IProfile> {
+        return getAlts(uuid).filter { getActiveBan(it.uuid) != null }
+    }
+
     override fun punish(type: PunishmentType, target: UUID, reason: String, duration: Duration?): IPunishment {
         val profile = getProfile(target) ?: error("Unknown player: $target")
 

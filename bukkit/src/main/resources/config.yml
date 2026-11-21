@@ -9,8 +9,6 @@ redis:
 # Key used to hash IP addresses. Generated on first start. Use the same value on every server.
 ip-secret: ""
 
-shortcuts: true
-
 muted-commands:
   - msg
   - tell
@@ -35,5 +33,6 @@ messages:
   warned: "<prefix><red>You were warned: <white><reason>"
   notify-issued: "<prefix><white><staff> <gray><type> <white><player> <gray><duration>: <white><reason>"
   notify-revoked: "<prefix><white><staff> <gray><type> <white><player>"
+  alt-alert: "<prefix><white><player> <gray>joined and may be an alt of banned <red><alts>"
   default-reason: "No reason given"
   permanent: "never"

@@ -219,4 +219,15 @@ class VerdictServiceTest {
         assertEquals(listOf("Alex", "Bob"), service.getAlts(steve.uuid).map { it.name })
     }
 
+    @Test
+    fun `banned alts are only the alts with an active ban`() {
+        val steve = join("Steve", ip = "1.1.1.1")
+        val alex = join("Alex", ip = "1.1.1.1")
+        join("Bob", ip = "1.1.1.1")
+
+        service.punish(PunishmentType.BAN, alex, "Cheating", staff)
+
+        assertEquals(listOf("Alex"), service.getBannedAlts(steve.uuid).map { it.name })
+    }
+
 }

@@ -32,6 +32,15 @@ class Messages(private val section: ConfigurationSection) {
         )
     }
 
+    fun altAlert(player: String, alts: List<String>): Component {
+        return miniMessage.deserialize(
+            template("alt-alert"),
+            Placeholder.parsed("prefix", prefix),
+            Placeholder.unparsed("player", player),
+            Placeholder.unparsed("alts", alts.joinToString(", "))
+        )
+    }
+
     private fun template(key: String): String {
         if (section.isList(key)) {
             return section.getStringList(key).joinToString("\n")

@@ -5,10 +5,11 @@ import com.selixe.directive.paper.PaperCommands
 import com.selixe.verdict.api.VerdictAPI
 import com.selixe.verdict.api.profile.IProfile
 import com.selixe.verdict.api.punishment.IPunishment
-import com.selixe.verdict.bukkit.command.ShortcutCommand
-import com.selixe.verdict.bukkit.command.VerdictCommand
+import com.selixe.verdict.bukkit.command.PunishmentCommands
+import com.selixe.verdict.bukkit.listener.AltListener
 import com.selixe.verdict.bukkit.listener.ChatListener
 import com.selixe.verdict.bukkit.listener.LoginListener
+import com.selixe.verdict.bukkit.menu.HistoryMenu
 import com.selixe.verdict.bukkit.message.Messages
 import com.selixe.verdict.bukkit.model.Profile
 import com.selixe.verdict.bukkit.model.Punishment
@@ -64,17 +65,15 @@ class VerdictPlugin : JavaPlugin() {
 
         val mutedCommands = config.getStringList("muted-commands").map { it.lowercase() }.toSet()
 
-        server.pluginManager.registerEvents(LoginListener(service, messages, logger), this)
-        server.pluginManager.registerEvents(ChatListener(service, messages, mutedCommands), this)
+        val menu = HistoryMenu(this)
 
-        val verdictCommand = VerdictCommand(service, messages)
+        server.pluginManager.registerEvents(LoginListener(service, messages, logger), this)
+        server.pluginManager.registerEvents(AltListener(this, service, messages), this)
+        server.pluginManager.registerEvents(ChatListener(service, messages, mutedCommands), this)
+        server.pluginManager.registerEvents(menu, this)
 
         commands = PaperCommands(this)
-        commands.register(verdictCommand.create())
-
-        if (config.getBoolean("shortcuts", true)) {
-            ShortcutCommand(verdictCommand).create().forEach(commands::register)
-        }
+        PunishmentCommands(service, messages, menu).create().forEach(commands::register)
     }
 
     private fun ipSecret(): String {
